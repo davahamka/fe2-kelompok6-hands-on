@@ -1,11 +1,18 @@
 import { useState } from "react";
+import CategoryFilter from "../../components/CategoryFilter";
+import Header from "../../components/Header";
 import ItemGif from "../../components/ItemGif";
 import SearchGif from "../../components/SearchGif";
-import { gif } from "../../data";
+import { gif, dataGif } from "../../data";
 
 const Home = () => {
   const [search, setSearch] = useState("");
   const [error, setError] = useState(false);
+  const [filter, setFilter] = useState("g");
+
+  const dataRating = dataGif.map((v) => v.rating);
+
+  const dataFilter = dataRating.filter((v, i, a) => a.indexOf(v) === i);
 
   const onSubmit = () => {
     if (search.length > 0) {
@@ -16,21 +23,34 @@ const Home = () => {
     }
   };
 
-  return (
-    <div className="layout">
-      <SearchGif
-        error={error}
-        onSubmit={() => {
-          onSubmit();
-        }}
-        search={search}
-        setSearch={setSearch}
-      />
+  const filteredData = dataGif.filter((v, i) => v.rating === filter);
 
-      <div className="list-gif">
-        <ItemGif data={gif} />
+  return (
+    <>
+      <Header />
+      <div className="layout">
+        <SearchGif
+          error={error}
+          search={search}
+          setSearch={setSearch}
+          onSubmit={() => {
+            onSubmit();
+          }}
+        />
+
+        <CategoryFilter
+          dataFilter={dataFilter}
+          filter={filter}
+          setFilter={setFilter}
+        />
+
+        <div className="list-gif">
+          {filter === ""
+            ? dataGif.map((item) => <ItemGif key={item.id} data={item} />)
+            : filteredData.map((item) => <ItemGif key={item.id} data={item} />)}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

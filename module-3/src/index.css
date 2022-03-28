@@ -1,0 +1,139 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.layout {
+  padding: 0px 40px;
+}
+
+.search-box {
+  margin: 20px 0px;
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+
+.search-box button {
+  position: absolute;
+  right: 0;
+  height: 56px;
+  border-radius: 0px 32px 32px 0;
+  padding: 12px;
+  margin-left: 8px;
+  width: 100px;
+  font-weight: bold;
+  font-size: 12pt;
+  background-color: palevioletred;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.search-box input {
+  width: 100%;
+  height: 30px;
+  padding: 12px;
+  font-size: 16pt;
+  border-radius: 32px;
+  background-color: transparent;
+}
+
+.invalid {
+  border-color: red;
+}
+
+.list-gif {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 20px;
+}
+
+.item-gif {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.list-gif div {
+  margin-right: 10px;
+}
+
+.box-gif {
+  width: 100%;
+  border-radius: 12px 12px 0px 0px;
+  max-height: 160px;
+}
+
+.title {
+  font-size: 16pt;
+  margin: 0;
+  padding: 12px 12px;
+  line-height: 16pt;
+  font-weight: bold;
+}
+
+.filter-list-box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.filter-list-box div {
+  cursor: pointer;
+  user-select: none;
+  margin-left: 14px;
+  border: 1px solid gray;
+  width: 40px;
+  display: flex;
+  border-radius: 6px;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 0;
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rating {
+  display: flex;
+  justify-content: end;
+  padding-right: 20px;
+  font-size: 16pt;
+  font-weight: bold;
+  width: auto;
+}
+
+.rating-g {
+  padding: 4px 7px;
+  border: 2px solid green;
+}
+
+.rating-pg {
+  padding: 4px 7px;
+  border: 2px solid red;
+}
+
+.selected {
+  background-color: black;
+  color: white;
+}
+
+@media screen and (min-width: 1024px) {
+  .layout {
+    width: 1200px;
+    margin: 0 auto;
+  }
+}

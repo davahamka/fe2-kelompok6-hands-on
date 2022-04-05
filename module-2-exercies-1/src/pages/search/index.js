@@ -1,93 +1,76 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import GiphyItem from "../../components/GiphyItem";
 import Header from "../../components/Header";
+import LimitFilter from "../../components/LimitFilter";
+import SearchBox from "../../components/SearchBox";
 
-export default class Search extends React.Component {
-  state = {
-    data: [],
-    error: false,
-    search: "",
-    isLoading: false,
-    limit: "12",
-  };
+const Search = () => {
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  handleInputSearch = (e) => {
-    this.setState({ search: e.target.value });
-  };
+  const forms = useSelector((state) => state.search.form);
 
-  handleOption = (e) => {
-    this.setState({ limit: e.target.value });
-  };
-
-  handleSubmit = () => {
-    if (this.state.search.length <= 0) {
-      this.setState({ error: true });
-      return;
-    }
-    this.setState({ isLoading: true });
-
-    this.getDataGif();
-
-    this.setState({ isLoading: false });
-    this.setState({ error: false });
-  };
-
-  getDataGif = () => {
+  const getDataGif = () => {
+    setIsLoading(true);
     fetch(
-      `https://api.giphy.com/v1/gifs/search?api_key=${process.env.REACT_APP_GIPHY_API_KEY}&q=${this.state.search}&limit=${this.state.limit}`
+      `https://api.giphy.com/v1/gifs/search?api_key=${process.env.REACT_APP_GIPHY_API_KEY}&q=${forms.search}&limit=${forms.limit}`
     )
       .then((data) => data.json())
       .then((data) => {
-        this.setState({
-          data: data.data,
-        });
+        setData(data.data);
       })
       .catch((err) => {
         console.log(err);
       });
+
+    setIsLoading(false);
   };
 
-  render() {
-    return (
-      <>
-        <Header />
-        <div className="layout" style={{ marginBottom: "54px" }}>
-          <div className="search-box">
-            <input
-              className={this.state.error ? "invalid" : ""}
-              value={this.state.search}
-              onChange={this.handleInputSearch}
-              placeholder="Search all GIFs and sticker"
-            />
+  useEffect(() => {
+    if (forms.limit) {
+      getDataGif();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [forms.limit]);
 
-            <button onClick={this.handleSubmit}>Search</button>
-          </div>
-          <div className="limit-box">
-            <p>Limit</p>
-            <select value={this.state.limit} onChange={this.handleOption}>
-              <option>10</option>
-              <option>12</option>
-              <option>20</option>
-              <option>30</option>
-            </select>
-          </div>
-          <p style={{ color: "red" }}>
-            {this.state.error
-              ? "Maaf kolom input anda kosong. Harap isi terlebih dahulu"
-              : ""}
-          </p>
-          <p>Total data yang dicari ada {this.state.data.length}</p>
-          <div className="list-gif">
-            {this.state.isLoading ? (
-              <div>Loading..</div>
-            ) : (
-              this.state.data.map((item) => (
-                <GiphyItem key={item.id} data={item} />
-              ))
-            )}
-          </div>
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (forms.search.length <= 0) {
+      setError(true);
+      return;
+    }
+    getDataGif();
+    setError(false);
+  };
+
+  return (
+    <>
+      <Header />
+      <div className="layout" style={{ marginBottom: "54px" }}>
+        <SearchBox
+          error={error}
+          isLoading={isLoading}
+          handleSubmit={handleSubmit}
+        />
+        <LimitFilter />
+        <p style={{ color: "red" }}>
+          {error
+            ? "Maaf kolom input anda kosong. Harap isi terlebih dahulu"
+            : ""}
+        </p>
+        <p>Total data yang dicari ada {data?.length}</p>
+        <div className="list-gif">
+          {isLoading ? (
+            <div>Loading..</div>
+          ) : (
+            data.map((item) => <GiphyItem key={item.id} data={item} />)
+          )}
         </div>
-      </>
-    );
-  }
-}
+      </div>
+    </>
+  );
+};
+
+export default Search;

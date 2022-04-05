@@ -1,5 +1,4 @@
 const GiphyItem = ({ data }) => {
-  console.log(data);
   return (
     <div className="item-gif">
       <img

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -7,13 +8,17 @@ const Header = () => {
     <header>
       <div className="layout header-inner">
         <p>Kelompok 6</p>
-        <p
-          onClick={() => {
-            setIsLogin((isLogin) => !isLogin);
-          }}
-        >
-          {isLogin ? "Hi, User!" : "Login"}
-        </p>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <Link to="/">Home</Link>
+          <Link to="/trending">Trending</Link>
+          <p
+            onClick={() => {
+              setIsLogin((isLogin) => !isLogin);
+            }}
+          >
+            {isLogin ? "Hi, User!" : "Login"}
+          </p>
+        </div>
       </div>
     </header>
   );

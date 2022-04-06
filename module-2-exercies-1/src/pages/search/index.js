@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import GiphyItem from "../../components/GiphyItem";
-import Header from "../../components/Header";
 import LimitFilter from "../../components/LimitFilter";
 import SearchBox from "../../components/SearchBox";
 
@@ -47,7 +46,6 @@ const Search = () => {
 
   return (
     <>
-      <Header />
       <div className="layout" style={{ marginBottom: "54px" }}>
         <SearchBox
           error={error}
